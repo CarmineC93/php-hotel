@@ -42,8 +42,6 @@ $hotels = [
 
 ?>
 
-
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -74,9 +72,16 @@ $hotels = [
                     <tr>
                         <th scope="row"><?php echo $info["name"]; ?></th>
                         <td><?php echo $info["description"]; ?></td>
-                        <td><?php echo $info["parking"]; ?></td>
-                        <td><?php echo $info["vote"]; ?></td>
-                        <td><?php echo $info["distance_to_center"]; ?></td>
+                        <td>
+                            <?php
+                            if ($info["parking"] === True) {
+                                echo "SI";
+                            } else {
+                                echo "NO";
+                            } ?>
+                        </td>
+                        <td><?php echo $info["vote"] . "/5"; ?></td>
+                        <td><?php echo $info["distance_to_center"] . "km"; ?></td>
                     </tr>
 
                 </tbody>
