@@ -40,6 +40,12 @@ $hotels = [
 
 ];
 
+$prefParking = $_GET["park"];
+
+$prefVote = $_GET["vote"];
+
+var_dump($_GET);
+
 ?>
 
 <!DOCTYPE html>
@@ -61,12 +67,21 @@ $hotels = [
         <h4>SEARCH WITH A FILTER</h4>
         <form action="index.php" method="GET">
             <label for="park">Parking</label>
-            <select id="park" name="park">
+            <select name="park" id="park">
                 <option value="with">With</option>
                 <option value="without">Without</option>
             </select>
-
-            <button type="submit">Filter</button>
+            <br>
+            <label for="vote">Voto</label>
+            <select name="vote" id="vote">
+                <option value="1">1</option>
+                <option value="1">2</option>
+                <option value="1">3</option>
+                <option value="1">4</option>
+                <option value="1">5</option>
+            </select>
+            <br>
+            <button class="btn-success" type="submit">Filter</button>
         </form>
     </section>
 
@@ -81,22 +96,24 @@ $hotels = [
                     </tr>
             </thead>
             <tbody>
-
                 <tr>
-                    <th scope="row"><?php echo $info["name"]; ?></th>
-                    <td><?php echo $info["description"]; ?></td>
-                    <td>
-                        <?php
-                        if ($info["parking"] === True) {
-                            echo "SI";
-                        } else {
-                            echo "NO";
-                        } ?>
-                    </td>
-                    <td><?php echo $info["vote"] . "/5"; ?></td>
-                    <td><?php echo $info["distance_to_center"] . "km"; ?></td>
-                </tr>
+                    <?php if ($prefParking === "with" && $info["parking"]  || $prefParking === "without" && !$info["parking"]) { ?>
 
+                        <td scope="row"><?php echo $info["name"]; ?></td>
+                        <td><?php echo $info["description"]; ?></td>
+                        <td>
+                            <?php
+                            if ($info["parking"]) {
+                                echo "SI";
+                            } else {
+                                echo "NO";
+                            } ?>
+                        </td>
+                        <td> <?php echo $info["vote"] . "/5"; ?></td>
+                        <td><?php echo $info["distance_to_center"] . "km"; ?></td>
+
+                    <?php } ?>
+                </tr>
             </tbody>
         <?php } ?>
         </table>
@@ -104,3 +121,5 @@ $hotels = [
 </body>
 
 </html>
+
+<!-- per ogni array devo capire se il valore di una sua key sia associabile . -->
