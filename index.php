@@ -40,11 +40,13 @@ $hotels = [
 
 ];
 
-$prefParking = $_GET["park"];
+//creo due variabili con un controllo coalescing operator. Se l'utente non da nessun valore all'input, questo sarà "all" 
+$prefParking = $_GET["park"] ?? "all";
 
-$prefVote = $_GET["vote"];
+$prefVote = $_GET["vote"] ?? "all";
 
 var_dump($_GET);
+
 
 ?>
 
@@ -60,29 +62,38 @@ var_dump($_GET);
     <link rel="stylesheet" href="css/style.css">
 </head>
 
-<body>
+<body class="p-3">
     <h1>HOTELS</h1>
 
-    <section>
+    <section class="p-3">
         <h4>SEARCH WITH A FILTER</h4>
         <form action="index.php" method="GET">
             <label for="park">Parking</label>
             <select name="park" id="park">
+                <option value="all">All</option>
                 <option value="with">With</option>
                 <option value="without">Without</option>
             </select>
             <br>
             <label for="vote">Voto</label>
             <select name="vote" id="vote">
+                <option value="all">all</option>
                 <option value="1">1</option>
-                <option value="1">2</option>
-                <option value="1">3</option>
-                <option value="1">4</option>
-                <option value="1">5</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
             </select>
             <br>
             <button class="btn-success" type="submit">Filter</button>
         </form>
+    </section>
+
+    <section class="p-3">
+        <h5>FILTRI APPLICATI:</h5>
+        <p> <strong><?php echo $prefParking ?></strong> parking </p>
+        <p> With <strong><?php echo $prefVote ?></strong> or more stars </p>
+
     </section>
 
     <section>
@@ -97,7 +108,11 @@ var_dump($_GET);
             </thead>
             <tbody>
                 <tr>
-                    <?php if ($prefParking === "with" && $info["parking"]  || $prefParking === "without" && !$info["parking"]) { ?>
+                    <?php if (
+                        ($prefParking === "with" && $info["parking"]  || $prefParking === "without" && !$info["parking"])
+                        && ($prefVote >= $info["vote"])
+                    ) { ?>
+
 
                         <td scope="row"><?php echo $info["name"]; ?></td>
                         <td><?php echo $info["description"]; ?></td>
@@ -113,6 +128,7 @@ var_dump($_GET);
                         <td><?php echo $info["distance_to_center"] . "km"; ?></td>
 
                     <?php } ?>
+
                 </tr>
             </tbody>
         <?php } ?>
