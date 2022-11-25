@@ -56,36 +56,49 @@ $hotels = [
 
 <body>
     <h1>HOTELS</h1>
+
+    <section>
+        <h4>SEARCH WITH A FILTER</h4>
+        <form action="index.php" method="GET">
+            <label for="park">Parking</label>
+            <select id="park" name="park">
+                <option value="with">With</option>
+                <option value="without">Without</option>
+            </select>
+
+            <button type="submit">Filter</button>
+        </form>
+    </section>
+
     <section>
         <table class="table">
-            <?php foreach ($hotels as $key => $info) { ?>
-                <thead>
+            <thead>
+                <?php foreach ($hotels as $key => $info) { ?>
                     <tr>
-                        <th scope="col"> <?php echo $key["name"]; ?> </th>
-                        <th scope="col"> <?php echo $key["description"]; ?> </th>
-                        <th scope="col"> <?php echo $key["parking"]; ?> </th>
-                        <th scope="col"> <?php echo $key["vote"]; ?> </th>
-                        <th scope="col"> <?php echo $key["distance_to_center"]; ?> </th>
+                        <?php foreach ($info as $key => $detail) { ?>
+                            <th scope="col"> <?php echo $key ?> </th>
+                        <?php } ?>
                     </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <th scope="row"><?php echo $info["name"]; ?></th>
-                        <td><?php echo $info["description"]; ?></td>
-                        <td>
-                            <?php
-                            if ($info["parking"] === True) {
-                                echo "SI";
-                            } else {
-                                echo "NO";
-                            } ?>
-                        </td>
-                        <td><?php echo $info["vote"] . "/5"; ?></td>
-                        <td><?php echo $info["distance_to_center"] . "km"; ?></td>
-                    </tr>
+            </thead>
+            <tbody>
 
-                </tbody>
-            <?php } ?>
+                <tr>
+                    <th scope="row"><?php echo $info["name"]; ?></th>
+                    <td><?php echo $info["description"]; ?></td>
+                    <td>
+                        <?php
+                        if ($info["parking"] === True) {
+                            echo "SI";
+                        } else {
+                            echo "NO";
+                        } ?>
+                    </td>
+                    <td><?php echo $info["vote"] . "/5"; ?></td>
+                    <td><?php echo $info["distance_to_center"] . "km"; ?></td>
+                </tr>
+
+            </tbody>
+        <?php } ?>
         </table>
     </section>
 </body>
