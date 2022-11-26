@@ -110,6 +110,7 @@ var_dump($_GET);
                 <?php foreach ($hotels as $key => $oneHotel) { ?>
                     <tr>
                         <!-- se l'utente non ha ancora fatto nessuna scelta tutti quelli generati sono visibili -->
+                        <!-- CASO 1 NESSUNA SCELTA -->
                         <?php if (($prefParking === "all") && ($prefVote === "all")) { ?>
                             <td scope="row"><?php echo $oneHotel["name"]; ?></td>
                             <td><?php echo $oneHotel["description"]; ?></td>
@@ -123,9 +124,12 @@ var_dump($_GET);
                             </td>
                             <td><?php echo $oneHotel["vote"] . "/5"; ?></td>
                             <td><?php echo $oneHotel["distance_to_center"] . "km"; ?></td>
+                            <td> <?php echo "caso 1" ?> </td>
+
                             <!-- altrimenti se l'utente ha fatto almeno una scelta -->
-                            <!--                       con              con                O                senza                          senza     o     minimo      dal minimo in su -->
-                        <?php } elseif (($prefParking === "with" && $oneHotel["parking"])  || ($prefParking === "without" && !$oneHotel["parking"]) || ($prefVote <= $oneHotel["vote"])) { ?>
+
+                            <!-- CASO 2 SCEGLIE SOLO PARCHEGGIO -->
+                        <?php } elseif ((($prefParking === "with" && $oneHotel["parking"])  || ($prefParking === "without" && !$oneHotel["parking"])) && ($prefVote === "all")) { ?>
                             <td scope="row"><?php echo $oneHotel["name"]; ?></td>
                             <td><?php echo $oneHotel["description"]; ?></td>
                             <td>
@@ -138,7 +142,40 @@ var_dump($_GET);
                             </td>
                             <td> <?php echo $oneHotel["vote"] . "/5"; ?></td>
                             <td><?php echo $oneHotel["distance_to_center"] . "km"; ?></td>
-                        <?php } ?>
+                            <td> <?php echo "caso 2" ?> </td>
+
+                            <!-- CASO 3 SCEGLIE SOLO STELLE -->
+                        <?php } elseif (($prefParking === "all") && ($prefVote <= $oneHotel["vote"])) { ?>
+                            <td scope="row"><?php echo $oneHotel["name"]; ?></td>
+                            <td><?php echo $oneHotel["description"]; ?></td>
+                            <td>
+                                <?php
+                                if ($oneHotel["parking"]) {
+                                    echo "SI";
+                                } else {
+                                    echo "NO";
+                                } ?>
+                            </td>
+                            <td> <?php echo $oneHotel["vote"] . "/5"; ?></td>
+                            <td><?php echo $oneHotel["distance_to_center"] . "km"; ?></td>
+                            <td> <?php echo "caso 3" ?> </td>
+
+                            <!-- CASO 4 SCEGLIE ENTRAMBE -->
+                        <?php } elseif ((($prefParking === "with" && $oneHotel["parking"])  || ($prefParking === "without" && !$oneHotel["parking"])) && ($prefVote <= $oneHotel["vote"]) && ($prefVote != "all")) { ?>
+                            <td scope="row"><?php echo $oneHotel["name"]; ?></td>
+                            <td><?php echo $oneHotel["description"]; ?></td>
+                            <td>
+                                <?php
+                                if ($oneHotel["parking"]) {
+                                    echo "SI";
+                                } else {
+                                    echo "NO";
+                                } ?>
+                            </td>
+                            <td> <?php echo $oneHotel["vote"] . "/5"; ?></td>
+                            <td><?php echo $oneHotel["distance_to_center"] . "km"; ?></td>
+                            <td> <?php echo "caso 4" ?> </td>
+                        <?php } ?> ?>
                     <?php } ?>
 
 
