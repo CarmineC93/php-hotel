@@ -77,7 +77,7 @@ var_dump($_GET);
             <br>
             <label for="vote">Voto</label>
             <select name="vote" id="vote">
-                <option value="all">all</option>
+                <option value="all">All</option>
                 <option value="1">1</option>
                 <option value="2">2</option>
                 <option value="3">3</option>
@@ -99,43 +99,54 @@ var_dump($_GET);
     <section>
         <table class="table">
             <thead>
-                <?php foreach ($hotels as $key => $info) { ?>
-                    <tr>
-                        <?php foreach ($info as $key => $detail) { ?>
-                            <th scope="col"> <?php echo $key ?> </th>
-                        <?php } ?>
-                    </tr>
+                <tr>
+                    <?php foreach ($hotels[0] as $key => $detail) { ?>
+                        <th scope="col"> <?php echo $key ?> </th>
+                    <?php } ?>
+                </tr>
             </thead>
             <tbody>
-                <tr>
-                    <?php if (
-                        ($prefParking === "with" && $info["parking"]  || $prefParking === "without" && !$info["parking"])
-                        && ($prefVote >= $info["vote"])
-                    ) { ?>
-
-
-                        <td scope="row"><?php echo $info["name"]; ?></td>
-                        <td><?php echo $info["description"]; ?></td>
-                        <td>
-                            <?php
-                            if ($info["parking"]) {
-                                echo "SI";
-                            } else {
-                                echo "NO";
-                            } ?>
-                        </td>
-                        <td> <?php echo $info["vote"] . "/5"; ?></td>
-                        <td><?php echo $info["distance_to_center"] . "km"; ?></td>
-
+                <!-- generiamo dinamicamente con i valori degli array interni ad hotels-->
+                <?php foreach ($hotels as $key => $oneHotel) { ?>
+                    <tr>
+                        <!-- se l'utente non ha ancora fatto nessuna scelta tutti quelli generati sono visibili -->
+                        <?php if (($prefParking === "all") && ($prefVote === "all")) { ?>
+                            <td scope="row"><?php echo $oneHotel["name"]; ?></td>
+                            <td><?php echo $oneHotel["description"]; ?></td>
+                            <td>
+                                <?php
+                                if ($oneHotel["parking"]) {
+                                    echo "SI";
+                                } else {
+                                    echo "NO";
+                                } ?>
+                            </td>
+                            <td><?php echo $oneHotel["vote"] . "/5"; ?></td>
+                            <td><?php echo $oneHotel["distance_to_center"] . "km"; ?></td>
+                            <!-- altrimenti se l'utente ha fatto almeno una scelta -->
+                            <!--                       con              con                O                senza                          senza     o     minimo      dal minimo in su -->
+                        <?php } elseif (($prefParking === "with" && $oneHotel["parking"])  || ($prefParking === "without" && !$oneHotel["parking"]) || ($prefVote <= $oneHotel["vote"])) { ?>
+                            <td scope="row"><?php echo $oneHotel["name"]; ?></td>
+                            <td><?php echo $oneHotel["description"]; ?></td>
+                            <td>
+                                <?php
+                                if ($oneHotel["parking"]) {
+                                    echo "SI";
+                                } else {
+                                    echo "NO";
+                                } ?>
+                            </td>
+                            <td> <?php echo $oneHotel["vote"] . "/5"; ?></td>
+                            <td><?php echo $oneHotel["distance_to_center"] . "km"; ?></td>
+                        <?php } ?>
                     <?php } ?>
 
-                </tr>
+
+
+                    </tr>
             </tbody>
-        <?php } ?>
         </table>
     </section>
 </body>
 
 </html>
-
-<!-- per ogni array devo capire se il valore di una sua key sia associabile . -->
