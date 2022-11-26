@@ -93,7 +93,6 @@ var_dump($_GET);
         <h5>FILTRI APPLICATI:</h5>
         <p> <strong><?php echo $prefParking ?></strong> parking </p>
         <p> With <strong><?php echo $prefVote ?></strong> or more stars </p>
-
     </section>
 
     <section>
@@ -115,18 +114,20 @@ var_dump($_GET);
                             <td scope="row"><?php echo $oneHotel["name"]; ?></td>
                             <td><?php echo $oneHotel["description"]; ?></td>
                             <td>
-                                <?php
-                                if ($oneHotel["parking"]) {
+                                <?php if ($oneHotel["parking"]) {
                                     echo "SI";
                                 } else {
                                     echo "NO";
-                                } ?>
+                                }
+                                ?>
                             </td>
                             <td><?php echo $oneHotel["vote"] . "/5"; ?></td>
                             <td><?php echo $oneHotel["distance_to_center"] . "km"; ?></td>
                             <td> <?php echo "caso 1" ?> </td>
 
-                            <!-- altrimenti se l'utente ha fatto almeno una scelta -->
+                            <!-- altrimenti se l'utente ha fatto almeno una scelta cicliamo e stampiamo solo gli hotel che passano il controllo if-->
+                            <!-- questa soluzione presuppone 4 casi: caso 1 ALL-ALL, caso 2 PARK/NOPARK-ALL, caso 3 ALL-STAR, caso 4 PARK/NOPARK-STAR
+                            Non funziona come soluzione, nel caso ci fossero già solo tre filtri, le combinazioni possibili diventando 8 -->
 
                             <!-- CASO 2 SCEGLIE SOLO PARCHEGGIO -->
                         <?php } elseif ((($prefParking === "with" && $oneHotel["parking"])  || ($prefParking === "without" && !$oneHotel["parking"])) && ($prefVote === "all")) { ?>
@@ -175,7 +176,7 @@ var_dump($_GET);
                             <td> <?php echo $oneHotel["vote"] . "/5"; ?></td>
                             <td><?php echo $oneHotel["distance_to_center"] . "km"; ?></td>
                             <td> <?php echo "caso 4" ?> </td>
-                        <?php } ?> ?>
+                        <?php } ?>
                     <?php } ?>
 
 
