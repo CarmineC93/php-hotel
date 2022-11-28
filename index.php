@@ -47,7 +47,44 @@ $prefVote = $_GET["vote"] ?? "all";
 
 var_dump($_GET);
 
+/*
+//UN ALTRO MODO è CREARE UN ARRAY CHE PRENDA SOLO GLI ELEMENTI CHE RIENTRANO NELLE CONDIZIONI DEI FILTRI, E STAMPARE QUELLO
+$filtered_hotels = $hotels;
+$filter_by_parking = $_GET["park"] ?? "";
+$filter_by_vote = $_GET["vote"] ?? "";
 
+
+if (!empty($filter_by_parking)) {
+    $tempHotels = [];
+    foreach ($filtered_hotels as $hotel) {
+        if ($hotel["parking"]) {
+            $tempHotels[] = $hotel;
+        }
+    }
+    $filtered_hotels = $tempHotels;
+
+    //oppure TERZO MODO CON array_filter all'interno del if
+    // $filtered_hotels = array_filter($filtered_hotels, fn ($hotel) => $hotel["parking"]);
+}
+
+if (!empty($filter_by_vote)) {
+    //trasformiamo in numero intero
+    $filter_by_vote = intval($filter_by_vote);
+    //variabile d'appoggio
+    $tempHotels = [];
+    //poichè potremmo aver già il filtro parking attivo, cicliamo l'array filtered_hotels
+    foreach ($filtered_hotels as $hotel) {
+        if ($hotel["vote"] >= $filtered_by_vote);
+        $temp_hotels[] = $hotel;
+    };
+    $filtered_hotels = $temp_hotels;
+
+    //oppure TERZO MODO CON array_filter all'interno del if
+    // $filtered_hotels = array_filter($filtered_hotels, fn ($hotel) => $hotel["vote"] >= $filtered_by_vote);
+}
+
+/*poi nella stampa il foreach ciclerà dal filtered_hotels e
+non da $hotels, e non saranno necessarie ovviamente le condizioni if */
 ?>
 
 <!DOCTYPE html>
@@ -106,6 +143,7 @@ var_dump($_GET);
             </thead>
             <tbody>
                 <!-- generiamo dinamicamente con i valori degli array interni ad hotels-->
+
                 <?php foreach ($hotels as $key => $oneHotel) { ?>
                     <tr>
                         <!-- se l'utente non ha ancora fatto nessuna scelta tutti quelli generati sono visibili -->
